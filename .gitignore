@@ -1,4 +1,7 @@
 .DS_Store
 .pyc
-Data
+data
 .ipynb_checkpoints
+
+#data files
+*.csv
