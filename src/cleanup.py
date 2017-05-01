@@ -67,5 +67,7 @@ continuous_columns = ['avg_dist','avg_rating_by_driver','avg_rating_of_driver','
 #
 data_class = DataClass('data/Train.csv')
 df = data_class.load_csv_to_df()
+
 #EDA
-df = data_class.get_data(df, [], [], [], [])
+pcu.info(df)
+# df = data_class.get_data(df, [], [], [], [])
