@@ -1,6 +1,11 @@
 import pandas as pd
+import numpy as np
 from zipfile import ZipFile
 from Helper import pandas_column_utilities as pcu
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import Imputer
+from Helper import FeatureTransformer as ft
 
 class DataClass :
 
@@ -40,7 +45,14 @@ class DataClass :
                     - one hot encoding
             6. remove columns which are fully zero or have the same value throughout.
         '''
-
+        #Begin : Creating categorical pipeline
+        # create encoder object
+        encode = ft.HotEncoder()
+        impute = Imputer(strategy='most_frequent')
+        pipeline = Pipeline([('encode',encode),('impute',impute)])
+        pipeline.fit(df[categorical])
+        print pipeline.transform(df[categorical])
+        #END : Creating categorical pipeline
 
         return df
 
@@ -54,7 +66,15 @@ class DataClass :
         df = self.select_features(df)
         return df
 
-continuous_columns = ['avg_dist','avg_rating_by_driver','avg_rating_of_driver','avg_surge','surge_pct','trips_in_first_30_days','weekday_pct']
+# continuous_columns = ['Undercarriage_Pad_Width']
+categorical_columns = ['Steering_Controls','Pad_Type']
+#  'Differential_Type', 'Blade_Type', \
+# 'Travel_Controls', 'Grouser_Type', 'Coupler', 'Tip_Control', 'Ripper', \
+# 'Hydraulics', 'Engine_Horsepower', 'Transmission', 'Pad_Type', 'Stick', \
+# 'ModelID' , 'datasource',  'fiModelDesc' ,'fiBaseModel', 'fiSecondaryDesc', \
+# 'fiModelSeries', 'fiModelDescriptor' , 'state', 'ProductGroup', \
+# 'ProductGroupDesc', 'Drive_System',  'Enclosure' ,
+
 #
 # zf = ZipFile('data/Train.zip')
 #
@@ -67,7 +87,7 @@ continuous_columns = ['avg_dist','avg_rating_by_driver','avg_rating_of_driver','
 #
 data_class = DataClass('data/Train.csv')
 df = data_class.load_csv_to_df()
-
+#
 #EDA
-pcu.info(df)
-# df = data_class.get_data(df, [], [], [], [])
+# pcu.info(df)
+df = data_class.get_data(df, [], [], [], categorical_columns)
