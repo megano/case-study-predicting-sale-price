@@ -85,7 +85,7 @@ categorical_columns = ['Steering_Controls','Pad_Type']
 #
 # price_v_year = df[['SalePrice', 'YearMade']]
 #
-data_class = DataClass('data/Train.csv')
+data_class = DataClass('../data/Train.csv')
 df = data_class.load_csv_to_df()
 #
 #EDA
