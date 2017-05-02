@@ -3,9 +3,12 @@ import numpy as np
 from zipfile import ZipFile
 from Helper import pandas_column_utilities as pcu
 from sklearn.preprocessing import OneHotEncoder
+# from sklearn.preprocessing import Normalize
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import Imputer
 from Helper import FeatureTransformer as ft
+
+
 
 class DataClass :
 
@@ -45,15 +48,25 @@ class DataClass :
                     - one hot encoding
             6. remove columns which are fully zero or have the same value throughout.
         '''
+        # #Begin : Creating continuous pipeline
+        # cont_impute = Imputer(strategy='most_frequent')
+        # cont_normalize = Normalizer()
+        # cont_pipeline = Pipeline([('impute',cont_impute),('normalize',cont_normalize)])
+        # pipeline.fit(df[continuous])
+        # print pipeline.transform(df[categorical])
+        # #END : Creating continuous pipeline
+
+
+
         #Begin : Creating categorical pipeline
         # create encoder object
-        encode = ft.HotEncoder()
-        impute = Imputer(strategy='most_frequent')
-        pipeline = Pipeline([('encode',encode),('impute',impute)])
-        pipeline.fit(df[categorical])
-        print pipeline.transform(df[categorical])
+        import pdb; pdb.set_trace()
+        categ_encode = ft.HotEncoder()
+        categ_impute = Imputer(strategy='most_frequent')
+        categ_pipeline = Pipeline([('encode',categ_encode),('impute',categ_impute)])
+        categ_encode = categ_encode.fit(df[categorical])
+        print categ_encode.transform(df[categorical])
         #END : Creating categorical pipeline
-
         return df
 
     def select_features(self, df):
@@ -66,14 +79,14 @@ class DataClass :
         df = self.select_features(df)
         return df
 
-# continuous_columns = ['Undercarriage_Pad_Width']
-categorical_columns = ['Steering_Controls','Pad_Type']
-#  'Differential_Type', 'Blade_Type', \
-# 'Travel_Controls', 'Grouser_Type', 'Coupler', 'Tip_Control', 'Ripper', \
-# 'Hydraulics', 'Engine_Horsepower', 'Transmission', 'Pad_Type', 'Stick', \
-# 'ModelID' , 'datasource',  'fiModelDesc' ,'fiBaseModel', 'fiSecondaryDesc', \
-# 'fiModelSeries', 'fiModelDescriptor' , 'state', 'ProductGroup', \
-# 'ProductGroupDesc', 'Drive_System',  'Enclosure' ,
+continuous_columns = ['Undercarriage_Pad_Width']
+
+categorical_columns = ['Steering_Controls', 'Differential_Type', 'Blade_Type', \
+'Travel_Controls', 'Grouser_Type', 'Coupler', 'Tip_Control', 'Ripper', \
+'Hydraulics', 'Engine_Horsepower', 'Transmission', 'Pad_Type', 'Stick', \
+'ModelID' , 'datasource',  'fiModelDesc' ,'fiBaseModel', 'fiSecondaryDesc', \
+'fiModelSeries', 'fiModelDescriptor' , 'state', 'ProductGroup', \
+'ProductGroupDesc', 'Drive_System',  'Enclosure' , 'Pad_Type']
 
 #
 # zf = ZipFile('data/Train.zip')
